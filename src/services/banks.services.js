@@ -3,17 +3,10 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const models = require('../../models');
 const { CustomException } = require('../constants/error');
-
+const { PATH } = require('../constants/fixtures');
+const bankDetails=require('../fixtures/ifsc.json')
 const insertBankDetails = async () => {
-  fs.readFile(path.resolve('/Users/Vriti_Satija/Desktop/BankingSystem/src/fixtures/ifsc.json'), 'utf8', async (err, data) => {
-    if (err) {
-      return;
-    }
-    try {
-      const bankDetails = JSON.parse(data);
-
       const updatedBankDetails = bankDetails.map((detail) => {
-      // eslint-disable-next-line no-param-reassign
         detail.STD_CODE = detail['STD CODE'];
         return detail;
       });
@@ -22,10 +15,7 @@ const insertBankDetails = async () => {
         truncate: true,
       });
       await models.BankDetails.bulkCreate(updatedBankDetails);
-    } catch (errr) {
-      console.log('Error parsing JSON string:', errr);
-    }
-  });
+  
 };
 const getBankNames = async () => {
   const bankNames = await models.BankDetails.findAll({

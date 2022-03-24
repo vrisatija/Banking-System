@@ -4,7 +4,7 @@ const insertBankDetails = async (req, res) => {
   try {
     const banks = await services.insertBankDetails();
     res.json({
-      'banks are': banks,
+      banks,
     }).status(200);
   } catch (err) {
     res.status(500).json({ error: `There's something wrong!  Failed: \n Error: ${err.message}` });
