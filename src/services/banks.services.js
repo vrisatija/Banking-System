@@ -53,7 +53,7 @@ const getBranches = async (bank) => {
 };
 const getBankDetails = async (ifsc) => {
   const bank = await models.BankDetails.findAll({
-    attributes: ['BANK', 'BRANCH', 'ADDRESS', 'CITY1', 'CITY2', 'STATE', 'STD_CODE', 'PHONE'],
+    attributes: ['BANK', 'BRANCH', 'IFSC', 'ADDRESS', 'CITY1', 'CITY2', 'STATE', 'STD_CODE', 'PHONE'],
     where: {
       IFSC: ifsc,
     },
@@ -62,13 +62,13 @@ const getBankDetails = async (ifsc) => {
 };
 const getIfsc = async (bank, branch) => {
   const ifsc = await models.BankDetails.findAll({
-    attributes: ['IFSC'],
+    attributes: ['BANK', 'BRANCH', 'IFSC', 'ADDRESS', 'CITY1', 'CITY2', 'STATE', 'STD_CODE', 'PHONE'],
     where: {
       BANK: bank,
       BRANCH: branch,
     },
   });
-  return ifsc[0].IFSC;
+  return ifsc;
 };
 module.exports = {
   insertBankDetails,
