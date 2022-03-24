@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const models = require('../../models');
+const { CustomException } = require('../constants/error');
 
 const insertBankDetails = async () => {
   fs.readFile(path.resolve('/Users/Vriti_Satija/Desktop/BankingSystem/src/fixtures/ifsc.json'), 'utf8', async (err, data) => {
@@ -58,6 +59,9 @@ const getBankDetails = async (ifsc) => {
       IFSC: ifsc,
     },
   });
+  if (bank.length === 0) {
+    throw CustomException('BAD REQUEST -IFSC not found', 404);
+  }
   return bank;
 };
 const getIfsc = async (bank, branch) => {
@@ -68,6 +72,9 @@ const getIfsc = async (bank, branch) => {
       BRANCH: branch,
     },
   });
+  if (ifsc.length === 0) {
+    throw CustomException('BAD REQUEST - Bank details not found ', 404);
+  }
   return ifsc;
 };
 module.exports = {

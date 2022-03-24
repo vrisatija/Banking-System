@@ -37,17 +37,18 @@ const getBankDetails = async (req, res) => {
       bankDetails,
     }).status(200);
   } catch (err) {
-    res.status(500).json({ error: `There's something wrong!  Failed: \n Error: ${err.message}` });
+    res.status(err.code).json({ error: `There's something wrong!  Failed: \n Error: ${err.message}` });
   }
 };
 const getIfsc = async (req, res) => {
   try {
     const ifsc = await services.getIfsc(req.params.bankName, req.params.branchName);
+    console.log(ifsc);
     res.json({
       ifsc,
     }).status(200);
   } catch (err) {
-    res.status(500).json({ error: `There's something wrong!  Failed: \n Error: ${err.message}` });
+    res.status(err.code).json({ error: `There's something wrong!  Failed: \n Error: ${err.message}` });
   }
 };
 module.exports = {
